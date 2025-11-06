@@ -1,0 +1,1075 @@
+<!DOCTYPE html>
+<html lang="pt-br">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>CyberGamer Zone - Edição Neon Absoluto</title>
+    
+    <!-- Tailwind CSS CDN -->
+    <script src="https://cdn.tailwindcss.com"></script>
+    
+    <!-- Google Fonts: Audiowide (para títulos) e Inter (para corpo) -->
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Audiowide&family=Inter:wght@400;500;700&display=swap" rel="stylesheet">
+    <link rel="icon" type="image/png" href="icone.png">
+    <!-- Script de Configuração do Tailwind (Tema Neon Azul/Rosa/Roxo) -->
+    <script>
+        tailwind.config = {
+            theme: {
+                extend: {
+                    fontFamily: {
+                        'audiowide': ['Audiowide', 'cursive'],
+                        'inter': ['Inter', 'sans-serif'],
+                    },
+                    colors: {
+                        'dark-bg': '#0a0a1a', // Azul/Preto escuro
+                        'neon-blue': '#00ffff', // Ciano brilhante
+                        'neon-pink': '#ff00ff', // Magenta brilhante
+                        'neon-purple': '#9e00ff', // Roxo vibrante
+                        'neon-green': '#00ff00', // Verde neon (para Snake)
+                        'cyber-accent': '#f4f4f4', // Cinza/Branco claro
+                    },
+                    boxShadow: {
+                        'neon-glow-blue': '0 0 5px rgba(0, 255, 255, 0.7), 0 0 10px rgba(0, 255, 255, 0.5), 0 0 20px rgba(0, 255, 255, 0.3)',
+                        'neon-glow-pink': '0 0 5px rgba(255, 0, 255, 0.7), 0 0 10px rgba(255, 0, 255, 0.5), 0 0 20px rgba(255, 0, 255, 0.3)',
+                        'neon-glow-purple': '0 0 5px rgba(158, 0, 255, 0.7), 0 0 10px rgba(158, 0, 255, 0.5), 0 0 20px rgba(158, 0, 255, 0.3)',
+                    },
+                    keyframes: {
+                        pulseNeon: {
+                            '0%, 100%': { opacity: 1, textShadow: '0 0 10px #ff00ff, 0 0 20px #00ffff' },
+                            '50%': { opacity: 0.8, textShadow: '0 0 20px #ff00ff, 0 0 30px #00ffff' },
+                        }
+                    },
+                    animation: {
+                        'pulse-neon': 'pulseNeon 2s ease-in-out infinite',
+                    }
+                },
+            },
+        }
+    </script>
+
+    <!-- Estilos CSS personalizados (Tema Neon) -->
+    <style>
+        body {
+            background-color: #0a0a1a; /* Fundo escuro */
+            /* Fundo com grade sutil CIANO */
+            background-image: 
+                linear-gradient(rgba(0, 255, 255, 0.05) 1px, transparent 1px),
+                linear-gradient(90deg, rgba(0, 255, 255, 0.05) 1px, transparent 1px);
+            background-size: 40px 40px;
+        }
+        
+        /* Scrollbar Neon Rosa */
+        ::-webkit-scrollbar {
+            width: 10px;
+        }
+        ::-webkit-scrollbar-track {
+            background: #0a0a1a;
+        }
+        ::-webkit-scrollbar-thumb {
+            background: #ff00ff;
+            border-radius: 5px;
+            box-shadow: 0 0 5px #ff00ff;
+        }
+        ::-webkit-scrollbar-thumb:hover {
+            background: #ff4dff;
+        }
+
+        .text-glow-blue {
+            text-shadow: 0 0 8px rgba(0, 255, 255, 0.8);
+        }
+        .text-glow-pink {
+            text-shadow: 0 0 8px rgba(255, 0, 255, 0.8);
+        }
+
+        /* Estilos para os Jogos Arcade */
+        canvas.gameCanvas {
+            background: #1a1a2e; /* Fundo escuro */
+            width: 100%;
+            max-width: 400px;
+            height: auto;
+            aspect-ratio: 1 / 1;
+            border-radius: 8px;
+        }
+        /* Cores específicas dos jogos */
+        #gameCanvasSnake { border: 2px solid #00ff00; box-shadow: 0 0 15px #00ff00; }
+        #gameCanvasInvaders { border: 2px solid #00ffff; box-shadow: 0 0 15px #00ffff; }
+        #gameCanvasPong { border: 2px solid #ff00ff; box-shadow: 0 0 15px #ff00ff; }
+
+        /* Estilo para Acordion de Guias */
+        .accordion-content {
+            transition: max-height 0.3s ease-out;
+        }
+    </style>
+</head>
+<body class="font-inter text-cyber-accent min-h-screen">
+
+    <!-- ===== CABEÇALHO E NAVEGAÇÃO ===== -->
+    <header class="bg-dark-bg/80 backdrop-blur-md sticky top-0 z-50 border-b border-neon-blue/30 shadow-neon-glow-blue">
+        <nav class="container mx-auto px-4 sm:px-6 lg:px-8">
+            <div class="flex items-center justify-between h-20">
+                <!-- Logo -->
+                <a href="#" class="font-audiowide text-3xl text-neon-blue text-glow-blue transition-all hover:text-white hover:scale-105">
+                    CyberGamer
+                </a>
+
+                <!-- Links do Desktop -->
+                <div class="hidden md:flex items-center space-x-4 lg:space-x-5">
+                    <a href="#lancamentos" class="font-semibold text-lg hover:text-neon-pink transition-colors duration-300">Lançamentos</a>
+                    <a href="#trailers" class="font-semibold text-lg hover:text-neon-pink transition-colors duration-300">Trailers</a>
+                    <a href="#esports" class="font-semibold text-lg hover:text-neon-pink transition-colors duration-300">E-Sports</a>
+                    <a href="#hardware" class="font-semibold text-lg hover:text-neon-pink transition-colors duration-300">Hardware</a>
+                    <a href="#arcade" class="font-semibold text-lg hover:text-neon-pink transition-colors duration-300">Arcade</a>
+                    <a href="#noticias" class="font-semibold text-lg hover:text-neon-pink transition-colors duration-300">Notícias</a>
+                    <a href="#guias" class="font-semibold text-lg hover:text-neon-pink transition-colors duration-300">Guias</a>
+                    <a href="https://br.ign.com/" target="_blank" class="px-5 py-2 font-bold text-dark-bg bg-neon-blue rounded-md shadow-neon-glow-blue transition-all duration-300 hover:bg-white hover:text-neon-blue">
+                        Reviews
+                    </a>
+                </div>
+
+                <!-- Botão do Menu Mobile -->
+                <div class="md:hidden">
+                    <button id="mobile-menu-button" class="text-gray-300 hover:text-neon-pink focus:outline-none">
+                        <svg class="w-8 h-8" fill="none" stroke="currentColor" viewBox="0 0 24 24" xmlns="http://www.w3.org/2000/svg">
+                            <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M4 6h16M4 12h16m-7 6h7"></path>
+                        </svg>
+                    </button>
+                </div>
+            </div>
+
+            <!-- Menu Mobile (oculto por padrão) -->
+            <div id="mobile-menu" class="hidden md:hidden pb-4">
+                <a href="#lancamentos" class="block py-2 px-4 text-lg font-semibold hover:bg-neon-blue/10 rounded-md">Lançamentos</a>
+                <a href="#trailers" class="block py-2 px-4 text-lg font-semibold hover:bg-neon-blue/10 rounded-md">Trailers</a>
+                <a href="#esports" class="block py-2 px-4 text-lg font-semibold hover:bg-neon-blue/10 rounded-md">E-Sports</a>
+                <a href="#hardware" class="block py-2 px-4 text-lg font-semibold hover:bg-neon-blue/10 rounded-md">Hardware</a>
+                <a href="#arcade" class="block py-2 px-4 text-lg font-semibold hover:bg-neon-blue/10 rounded-md">Arcade</a>
+                <a href="#noticias" class="block py-2 px-4 text-lg font-semibold hover:bg-neon-blue/10 rounded-md">Notícias</a>
+                <a href="#guias" class="block py-2 px-4 text-lg font-semibold hover:bg-neon-blue/10 rounded-md">Guias</a>
+                <a href="#plataformas" class="block py-2 px-4 text-lg font-semibold hover:bg-neon-blue/10 rounded-md">Plataformas</a>
+                <a href="https://br.ign.com/" target="_blank" class="block mt-2 py-2 px-4 text-lg text-center font-bold text-dark-bg bg-neon-blue rounded-md shadow-neon-glow-blue">
+                    Reviews
+                </a>
+            </div>
+        </nav>
+    </header>
+
+    <!-- ===== CORPO PRINCIPAL ===== -->
+    <main class="container mx-auto px-4 sm:px-6 lg:px-8 py-12">
+
+        <!-- ===== SEÇÃO HERO ===== -->
+        <section class="text-center my-16">
+            <h1 class="font-audiowide text-5xl md:text-7xl lg:text-8xl bg-clip-text text-transparent bg-gradient-to-r from-neon-blue to-neon-pink animate-pulse-neon">
+                A VANGUARDA DO GAMING
+            </h1>
+            <p class="mt-6 text-xl md:text-2xl text-cyber-accent max-w-3xl mx-auto">
+                Sua central de notícias, reviews e lançamentos do universo neon-futurista. Mergulhe na próxima geração.
+            </p>
+            <a href="#lancamentos" class="inline-block mt-10 px-10 py-4 font-bold text-xl bg-transparent border-2 border-neon-purple text-neon-purple rounded-lg shadow-neon-glow-purple transition-all duration-300 hover:bg-neon-purple hover:text-dark-bg hover:scale-105">
+                Explorar Lançamentos
+            </a>
+        </section>
+
+        <!-- ===== SEÇÃO: PRÓXIMOS LANÇAMENTOS (EXPANDIDA) ===== -->
+        <section id="lancamentos" class="my-24">
+            <h2 class="font-audiowide text-4xl text-neon-blue text-glow-blue mb-8">Próximos Lançamentos</h2>
+            <div class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-8">
+                <!-- Card 1 -->
+                <div class="bg-gray-900/50 rounded-lg overflow-hidden border border-neon-purple/30 shadow-neon-glow-purple transform transition-transform duration-300 hover:scale-105 hover:shadow-neon-glow-pink">
+                    <img src="https://placehold.co/600x400/9e00ff/0a0a1a?text=GTA+VI" alt="Capa GTA VI" class="w-full h-48 object-cover">
+                    <div class="p-5">
+                        <h3 class="text-2xl font-bold mb-2">Grand Theft Auto VI</h3>
+                        <p class="text-sm text-gray-400 mb-2">Lançamento: 2025</p>
+                        <span class="inline-block bg-neon-blue/20 text-neon-blue text-xs font-semibold px-2 py-1 rounded-full">PS5</span>
+                        <span class="inline-block bg-neon-blue/20 text-neon-blue text-xs font-semibold px-2 py-1 rounded-full ml-1">Xbox</span>
+                    </div>
+                </div>
+                <!-- Card 2 -->
+                <div class="bg-gray-900/50 rounded-lg overflow-hidden border border-neon-purple/30 shadow-neon-glow-purple transform transition-transform duration-300 hover:scale-105 hover:shadow-neon-glow-pink">
+                    <img src="https://placehold.co/600x400/ff00ff/0a0a1a?text=Assassin's+Creed+Shadows" alt="Capa AC Shadows" class="w-full h-48 object-cover">
+                    <div class="p-5">
+                        <h3 class="text-2xl font-bold mb-2">AC: Shadows</h3>
+                        <p class="text-sm text-gray-400 mb-2">Lançamento: Fim de 2024</p>
+                        <span class="inline-block bg-neon-blue/20 text-neon-blue text-xs font-semibold px-2 py-1 rounded-full">PC</span>
+                        <span class="inline-block bg-neon-blue/20 text-neon-blue text-xs font-semibold px-2 py-1 rounded-full ml-1">PS5</span>
+                    </div>
+                </div>
+                <!-- Card 3 -->
+                <div class="bg-gray-900/50 rounded-lg overflow-hidden border border-neon-purple/30 shadow-neon-glow-purple transform transition-transform duration-300 hover:scale-105 hover:shadow-neon-glow-pink">
+                    <img src="https://placehold.co/600x400/00ffff/0a0a1a?text=Black+Myth:+Wukong" alt="Capa Wukong" class="w-full h-48 object-cover">
+                    <div class="p-5">
+                        <h3 class="text-2xl font-bold mb-2">Black Myth: Wukong</h3>
+                        <p class="text-sm text-gray-400 mb-2">Lançamento: Agosto 2024</p>
+                        <span class="inline-block bg-neon-blue/20 text-neon-blue text-xs font-semibold px-2 py-1 rounded-full">PC</span>
+                        <span class="inline-block bg-neon-blue/20 text-neon-blue text-xs font-semibold px-2 py-1 rounded-full ml-1">PS5</span>
+                    </div>
+                </div>
+                <!-- Card 4 -->
+                <div class="bg-gray-900/50 rounded-lg overflow-hidden border border-neon-purple/30 shadow-neon-glow-purple transform transition-transform duration-300 hover:scale-105 hover:shadow-neon-glow-pink">
+                    <img src="https://placehold.co/600x400/9e00ff/0a0a1a?text=Starfield:+Shattered+Space" alt="Capa Starfield DLC" class="w-full h-48 object-cover">
+                    <div class="p-5">
+                        <h3 class="text-2xl font-bold mb-2">Starfield: Shattered Space</h3>
+                        <p class="text-sm text-gray-400 mb-2">Lançamento: Fim de 2024</p>
+                        <span class="inline-block bg-neon-blue/20 text-neon-blue text-xs font-semibold px-2 py-1 rounded-full">PC</span>
+                        <span class="inline-block bg-neon-blue/20 text-neon-blue text-xs font-semibold px-2 py-1 rounded-full ml-1">Xbox</span>
+                    </div>
+                </div>
+                <!-- Card 5 -->
+                 <div class="bg-gray-900/50 rounded-lg overflow-hidden border border-neon-purple/30 shadow-neon-glow-purple transform transition-transform duration-300 hover:scale-105 hover:shadow-neon-glow-pink">
+                    <img src="https://placehold.co/600x400/ff00ff/0a0a1a?text=Hades+II" alt="Capa Hades II" class="w-full h-48 object-cover">
+                    <div class="p-5">
+                        <h3 class="text-2xl font-bold mb-2">Hades II</h3>
+                        <p class="text-sm text-gray-400 mb-2">Lançamento: Acesso Antecipado</p>
+                        <span class="inline-block bg-neon-blue/20 text-neon-blue text-xs font-semibold px-2 py-1 rounded-full">PC</span>
+                    </div>
+                </div>
+                <!-- Card 6 -->
+                <div class="bg-gray-900/50 rounded-lg overflow-hidden border border-neon-purple/30 shadow-neon-glow-purple transform transition-transform duration-300 hover:scale-105 hover:shadow-neon-glow-pink">
+                    <img src="https://placehold.co/600x400/00ffff/0a0a1a?text=The+Elder+Scrolls+VI" alt="Capa TES VI" class="w-full h-48 object-cover">
+                    <div class="p-5">
+                        <h3 class="text-2xl font-bold mb-2">Elder Scrolls VI</h3>
+                        <p class="text-sm text-gray-400 mb-2">Lançamento: TBD</p>
+                        <span class="inline-block bg-neon-blue/20 text-neon-blue text-xs font-semibold px-2 py-1 rounded-full">PC</span>
+                        <span class="inline-block bg-neon-blue/20 text-neon-blue text-xs font-semibold px-2 py-1 rounded-full ml-1">Xbox</span>
+                    </div>
+                </div>
+                <!-- Card 7 -->
+                <div class="bg-gray-900/50 rounded-lg overflow-hidden border border-neon-purple/30 shadow-neon-glow-purple transform transition-transform duration-300 hover:scale-105 hover:shadow-neon-glow-pink">
+                    <img src="https://placehold.co/600x400/9e00ff/0a0a1a?text=Hollow+Knight:+Silksong" alt="Capa Silksong" class="w-full h-48 object-cover">
+                    <div class="p-5">
+                        <h3 class="text-2xl font-bold mb-2">Hollow Knight: Silksong</h3>
+                        <p class="text-sm text-gray-400 mb-2">Lançamento: ...em breve?</p>
+                        <span class="inline-block bg-neon-blue/20 text-neon-blue text-xs font-semibold px-2 py-1 rounded-full">PC</span>
+                        <span class="inline-block bg-neon-blue/20 text-neon-blue text-xs font-semibold px-2 py-1 rounded-full ml-1">Switch</span>
+                    </div>
+                </div>
+                <!-- Card 8 -->
+                <div class="bg-gray-900/50 rounded-lg overflow-hidden border border-neon-purple/30 shadow-neon-glow-purple transform transition-transform duration-300 hover:scale-105 hover:shadow-neon-glow-pink">
+                    <img src="https://placehold.co/600x400/ff00ff/0a0a1a?text=Novo+DOOM" alt="Capa Novo DOOM" class="w-full h-48 object-cover">
+                    <div class="p-5">
+                        <h3 class="text-2xl font-bold mb-2">DOOM: The Dark Ages</h3>
+                        <p class="text-sm text-gray-400 mb-2">Lançamento: 2025</p>
+                        <span class="inline-block bg-neon-blue/20 text-neon-blue text-xs font-semibold px-2 py-1 rounded-full">PC</span>
+                        <span class="inline-block bg-neon-blue/20 text-neon-blue text-xs font-semibold px-2 py-1 rounded-full ml-1">PS5</span>
+                        <span class="inline-block bg-neon-blue/20 text-neon-blue text-xs font-semibold px-2 py-1 rounded-full ml-1">Xbox</span>
+                    </div>
+                </div>
+            </div>
+        </section>
+
+        <!-- ===== SEÇÃO: TRAILERS EM DESTAQUE (EXPANDIDA) ===== -->
+        <section id="trailers" class="my-24">
+            <h2 class="font-audiowide text-4xl text-neon-pink text-glow-pink mb-8">Trailers em Destaque</h2>
+            <div class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-8">
+                <!-- Trailer 1: GTA VI -->
+                <div class="rounded-lg overflow-hidden border border-neon-pink/30 shadow-neon-glow-pink transition-transform duration-300 hover:scale-105">
+                    <iframe class="w-full aspect-video" src="https://www.youtube.com/embed/QdBZY2fkU-0" title="Trailer Oficial 1 de Grand Theft Auto VI" frameborder="0" allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture" allowfullscreen></iframe>
+                </div>
+                <!-- Trailer 2: Starfield: Shattered Space -->
+                <div class="rounded-lg overflow-hidden border border-neon-pink/30 shadow-neon-glow-pink transition-transform duration-300 hover:scale-105">
+                    <iframe class="w-full aspect-video" src="https://www.youtube.com/embed/Ugb8_Gle-C0" title="Trailer Oficial de Starfield: Shattered Space" frameborder="0" allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture" allowfullscreen></iframe>
+                </div>
+                <!-- Trailer 3: AC Shadows -->
+                <div class="rounded-lg overflow-hidden border border-neon-pink/30 shadow-neon-glow-pink transition-transform duration-300 hover:scale-105">
+                    <iframe class="w-full aspect-video" src="https://www.youtube.com/embed/vovkzbtYyG4" title="Trailer Oficial de Assassin's Creed Shadows" frameborder="0" allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture" allowfullscreen></iframe>
+                </div>
+                <!-- Trailer 4: DOOM: The Dark Ages -->
+                <div class="rounded-lg overflow-hidden border border-neon-pink/30 shadow-neon-glow-pink transition-transform duration-300 hover:scale-105">
+                    <iframe class="w-full aspect-video" src="https://www.youtube.com/embed/4tI4P3_51gI" title="Trailer Oficial de DOOM: The Dark Ages" frameborder="0" allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture" allowfullscreen></iframe>
+                </div>
+                <!-- Trailer 5: Cyberpunk 2077: Phantom Liberty -->
+                <div class="rounded-lg overflow-hidden border border-neon-pink/30 shadow-neon-glow-pink transition-transform duration-300 hover:scale-105">
+                    <iframe class="w-full aspect-video" src="https://www.youtube.com/embed/zE1I-r9-2sE" title="Trailer Oficial de Cyberpunk 2077: Phantom Liberty" frameborder="0" allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture" allowfullscreen></iframe>
+                </div>
+                <!-- Trailer 6: Hades II -->
+                <div class="rounded-lg overflow-hidden border border-neon-pink/30 shadow-neon-glow-pink transition-transform duration-300 hover:scale-105">
+                    <iframe class="w-full aspect-video" src="https://www.youtube.com/embed/l-iI-i8M2f0" title="Trailer de Lançamento (Acesso Antecipado) de Hades II" frameborder="0" allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture" allowfullscreen></iframe>
+                </div>
+            </div>
+        </section>
+
+        <!-- ===== SEÇÃO: E-SPORTS (NOVA) ===== -->
+        <section id="esports" class="my-24">
+            <h2 class="font-audiowide text-4xl text-neon-blue text-glow-blue mb-8">E-Sports Zone</h2>
+            <div class="flex flex-col lg:flex-row gap-8">
+                <!-- Placar ao Vivo -->
+                <div class="lg:w-2/3 bg-gray-900/50 rounded-lg p-6 border border-neon-blue/30 shadow-neon-glow-blue">
+                    <h3 class="font-audiowide text-3xl text-cyber-accent mb-6">Finais Mundiais - Ao Vivo</h3>
+                    <!-- Jogo 1 -->
+                    <div class="mb-4 bg-dark-bg/50 p-4 rounded-lg">
+                        <span class="text-sm text-neon-pink font-semibold">Valorant Champions</span>
+                        <div class="flex items-center justify-between mt-2">
+                            <span class="text-2xl font-bold">LOUD</span>
+                            <span class="font-audiowide text-3xl text-neon-blue">2 - 1</span>
+                            <span class="text-2xl font-bold text-gray-500">Paper Rex</span>
+                        </div>
+                    </div>
+                    <!-- Jogo 2 -->
+                    <div class="mb-4 bg-dark-bg/50 p-4 rounded-lg">
+                        <span class="text-sm text-neon-pink font-semibold">League of Legends Worlds</span>
+                        <div class="flex items-center justify-between mt-2">
+                            <span class="text-2xl font-bold text-gray-500">T1</span>
+                            <span class="font-audiowide text-3xl text-neon-blue">0 - 0</span>
+                            <span class="text-2xl font-bold">Gen.G</span>
+                        </div>
+                    </div>
+                    <!-- Jogo 3 -->
+                    <div class="bg-dark-bg/50 p-4 rounded-lg">
+                        <span class="text-sm text-neon-pink font-semibold">CS2 Major</span>
+                        <div class="flex items-center justify-between mt-2">
+                            <span class="text-2xl font-bold">FaZe Clan</span>
+                            <span class="font-audiowide text-3xl text-neon-blue">1 - 0</span>
+                            <span class="text-2xl font-bold text-gray-500">MOUZ</span>
+                        </div>
+                    </div>
+                </div>
+                <!-- Links de Streams -->
+                <div class="lg:w-1/3 space-y-6">
+                    <a href="https://www.twitch.tv/riotgames" target="_blank" class="block p-6 bg-gray-900/50 rounded-lg border border-neon-blue/30 shadow-neon-glow-blue transition-all duration-300 hover:scale-105 hover:bg-neon-purple/20">
+                        <h4 class="text-2xl font-bold mb-2">Twitch Principal</h4>
+                        <p class="text-gray-400">Canal Oficial da Riot Games (LoL/Valorant)</p>
+                    </a>
+                    <a href="https://www.youtube.com/@CBLOL" target="_blank" class="block p-6 bg-gray-900/50 rounded-lg border border-neon-blue/30 shadow-neon-glow-blue transition-all duration-300 hover:scale-105 hover:bg-neon-purple/20">
+                        <h4 class="text-2xl font-bold mb-2">YouTube CBLOL</h4>
+                        <p class="text-gray-400">Toda a ação do League of Legends Brasileiro.</p>
+                    </a>
+                </div>
+            </div>
+        </section>
+
+        <!-- ===== SEÇÃO: HARDWARE ZONE ===== -->
+        <section id="hardware" class="my-24">
+            <h2 class="font-audiowide text-4xl text-neon-purple text-glow-purple mb-8">Hardware Zone</h2>
+            <div class="grid grid-cols-1 md:grid-cols-3 gap-8">
+                <!-- Hardware 1 -->
+                <div class="bg-gray-900/50 rounded-lg overflow-hidden border border-neon-purple/30 shadow-neon-glow-purple transition-transform duration-300 hover:scale-105">
+                    <img src="https://placehold.co/600x400/9e00ff/0a0a1a?text=GPU+RTX+5090" alt="RTX 5090" class="w-full h-48 object-cover">
+                    <div class="p-6">
+                        <h3 class="text-2xl font-bold mb-2">Análise: NVIDIA RTX 5090</h3>
+                        <p class="text-gray-400 mb-4">A nova rainha do 4K? Testamos o monstro da NVIDIA em Cyberpunk 2077 com tudo no máximo.</p>
+                        <div class="text-xl font-bold text-neon-purple">★★★★★</div>
+                    </div>
+                </div>
+                <!-- Hardware 2 -->
+                <div class="bg-gray-900/50 rounded-lg overflow-hidden border border-neon-purple/30 shadow-neon-glow-purple transition-transform duration-300 hover:scale-105">
+                    <img src="https://placehold.co/600x400/ff00ff/0a0a1a?text=VR+Headset+X-II" alt="VR Headset" class="w-full h-48 object-cover">
+                    <div class="p-6">
+                        <h3 class="text-2xl font-bold mb-2">Análise: CybeReality VR-X II</h3>
+                        <p class="text-gray-400 mb-4">O novo headset VR promete imersão total com rastreamento ocular. Vale o preço?</p>
+                        <div class="text-xl font-bold text-neon-purple">★★★★☆</div>
+                    </div>
+                </div>
+                <!-- Hardware 3 -->
+                <div class="bg-gray-900/50 rounded-lg overflow-hidden border border-neon-purple/30 shadow-neon-glow-purple transition-transform duration-300 hover:scale-105">
+                    <img src="https://placehold.co/600x400/00ffff/0a0a1a?text=CPU+Ryzen+X" alt="CPU Ryzen" class="w-full h-48 object-cover">
+                    <div class="p-6">
+                        <h3 class="text-2xl font-bold mb-2">Análise: AMD Ryzen 10 9950X</h3>
+                        <p class="text-gray-400 mb-4">A AMD contra-ataca com sua nova arquitetura. O fim do gargalo para jogos?</p>
+                        <div class="text-xl font-bold text-neon-purple">★★★★★</div>
+                    </div>
+                </div>
+            </div>
+        </section>
+
+        <!-- ===== SEÇÃO: ARCADE NEON (TRÊS JOGOS) ===== -->
+        <section id="arcade" class="my-24">
+            <h2 class="font-audiowide text-4xl text-neon-blue text-glow-blue mb-8">Arcade Neon</h2>
+            <div class="grid grid-cols-1 lg:grid-cols-3 gap-8">
+                
+                <!-- Jogo 1: CyberSnake -->
+                <div class="flex flex-col items-center justify-center bg-gray-900/50 p-6 rounded-lg border border-neon-green/30 shadow-[0_0_15px_rgba(0,255,0,0.3)]">
+                    <h3 class="font-audiowide text-3xl text-neon-green text-shadow-[0_0_8px_rgba(0,255,0,0.8)] mb-4">CyberSnake</h3>
+                    <p class="text-lg text-gray-300 mb-4 text-center">Use as setas (&#8592; &#8593; &#8594; &#8595;) ou W, A, S, D.</p>
+                    <div id="scoreDisplaySnake" class="font-audiowide text-2xl text-neon-green mb-4">PONTOS: 0</div>
+                    <canvas id="gameCanvasSnake" width="400" height="400" class="gameCanvas"></canvas>
+                </div>
+
+                <!-- Jogo 2: Cyber Invaders -->
+                <div class="flex flex-col items-center justify-center bg-gray-900/50 p-6 rounded-lg border border-neon-blue/30 shadow-neon-glow-blue">
+                    <h3 class="font-audiowide text-3xl text-neon-blue text-glow-blue mb-4">Cyber Invaders</h3>
+                    <p class="text-lg text-gray-300 mb-4 text-center">Setas (&#8592; &#8594;) para mover. Espaço para atirar.</p>
+                    <div id="scoreDisplayInvaders" class="font-audiowide text-2xl text-neon-blue mb-4">PONTOS: 0</div>
+                    <canvas id="gameCanvasInvaders" width="400" height="400" class="gameCanvas"></canvas>
+                </div>
+
+                <!-- Jogo 3: CyberPong -->
+                <div class="flex flex-col items-center justify-center bg-gray-900/50 p-6 rounded-lg border border-neon-pink/30 shadow-neon-glow-pink">
+                    <h3 class="font-audiowide text-3xl text-neon-pink text-glow-pink mb-4">CyberPong</h3>
+                    <p class="text-lg text-gray-300 mb-4 text-center">P1: W/S | P2: &#8593; / &#8595;</p>
+                    <div id="scoreDisplayPong" class="font-audiowide text-2xl text-neon-pink mb-4">0 - 0</div>
+                    <canvas id="gameCanvasPong" width="400" height="400" class="gameCanvas"></canvas>
+                </div>
+
+            </div>
+        </section>
+
+        <!-- ===== SEÇÃO: NOTÍCIAS E RECURSOS (EXPANDIDA) ===== -->
+        <section id="noticias" class="my-24">
+            <h2 class="font-audiowide text-4xl text-neon-pink text-glow-pink mb-8">Notícias em Destaque</h2>
+            <div class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-8">
+                <!-- Notícia 1 (Principal) -->
+                <div class="md:col-span-2 lg:col-span-2 bg-gray-900/50 rounded-lg overflow-hidden border border-neon-pink/30 shadow-neon-glow-pink">
+                    <img src="https://placehold.co/800x400/ff00ff/0a0a1a?text=Atualização+Cyberpunk+2.5" alt="Atualização Cyberpunk" class="w-full h-64 object-cover">
+                    <div class="p-6">
+                        <span class="text-sm text-neon-blue font-semibold">Atualização</span>
+                        <h3 class="text-3xl font-bold my-3 hover:text-cyber-accent transition-colors"><a href="https://www.cyberpunk.net/pt-br/" target="_blank">Cyberpunk 2.5: CDPR anuncia surpresa com novas áreas e IA de multidão refeita.</a></h3>
+                        <p class="text-gray-400">Night City ficará ainda mais viva. A atualização gratuita chega na próxima semana, pegando todos de surpresa...</p>
+                    </div>
+                </div>
+                <!-- Notícia 2 -->
+                <a href="https://br.ign.com/reviews" target="_blank" class="block bg-gray-900/50 p-5 rounded-lg border border-neon-pink/30 hover:bg-gray-800 transition-colors">
+                    <span class="text-sm text-neon-blue font-semibold">Review</span>
+                    <h4 class="text-xl font-bold mt-1">Review: 'Neon Echo' redefine o gênero roguelite com estilo visual insano.</h4>
+                </a>
+                <!-- Notícia 3 -->
+                <a href="https://www.twitch.tv/directory/category/esports" target="_blank" class="block bg-gray-900/50 p-5 rounded-lg border border-neon-pink/30 hover:bg-gray-800 transition-colors">
+                    <span class="text-sm text-neon-blue font-semibold">E-Sports</span>
+                    <h4 class="text-xl font-bold mt-1">Finais do 'Cyber-League' quebram recordes de audiência na Twitch.</h4>
+                </a>
+                <!-- Notícia 4 -->
+                <a href="https://www.youtube.com/gaming" target="_blank" class="block bg-gray-900/50 p-5 rounded-lg border border-neon-pink/30 hover:bg-gray-800 transition-colors">
+                    <span class="text-sm text-neon-blue font-semibold">Comunidade</span>
+                    <h4 class="text-xl font-bold mt-1">Os 5 melhores canais de YouTube Gaming para seguir em 2025.</h4>
+                </a>
+                <!-- Notícia 5 -->
+                <a href="https://www.gamespot.com/" target="_blank" class="block bg-gray-900/50 p-5 rounded-lg border border-neon-pink/30 hover:bg-gray-800 transition-colors">
+                    <span class="text-sm text-neon-blue font-semibold">Indústria</span>
+                    <h4 class="text-xl font-bold mt-1">Microsoft confirma: todos os jogos da Bethesda serão dia 1 no Game Pass.</h4>
+                </a>
+                <!-- Notícia 6 -->
+                <a href="https://www.gamesradar.com/" target="_blank" class="block bg-gray-900/50 p-5 rounded-lg border border-neon-pink/30 hover:bg-gray-800 transition-colors">
+                    <span class="text-sm text-neon-blue font-semibold">Rumor</span>
+                    <h4 class="text-xl font-bold mt-1">Vazamento sugere que 'Bloodborne 2' está em desenvolvimento secreto.</h4>
+                </a>
+                <!-- Notícia 7 -->
+                <a href="https://www.kotaku.com.br/" target="_blank" class="block bg-gray-900/50 p-5 rounded-lg border border-neon-pink/30 hover:bg-gray-800 transition-colors">
+                    <span class="text-sm text-neon-blue font-semibold">Opinião</span>
+                    <h4 class="text-xl font-bold mt-1">Por que os remakes estão dominando a geração atual?</h4>
+                </a>
+                <!-- Notícia 8 (placeholder) -->
+                <a href="#" class="block bg-gray-900/50 p-5 rounded-lg border border-neon-pink/30 hover:bg-gray-800 transition-colors">
+                    <span class="text-sm text-neon-blue font-semibold">Guia</span>
+                    <h4 class="text-xl font-bold mt-1">Melhores builds para 'Elden Ring: Shadow of the Erdtree'.</h4>
+                </a>
+            </div>
+        </section>
+
+        <!-- ===== SEÇÃO: GUIAS E DICAS ===== -->
+        <section id="guias" class="my-24">
+            <h2 class="font-audiowide text-4xl text-neon-purple text-glow-purple mb-8">Guias e Dicas</h2>
+            <div class="space-y-4 max-w-4xl mx-auto">
+                <!-- Guia 1 -->
+                <div class="accordion-item bg-gray-900/50 border border-neon-purple/30 rounded-lg">
+                    <button class="accordion-header flex justify-between items-center w-full p-5 text-left">
+                        <span class="text-xl font-bold">Como otimizar Cyberpunk 2077 para máximo FPS?</span>
+                        <svg class="w-6 h-6 transform transition-transform" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M19 9l-7 7-7-7"></path></svg>
+                    </button>
+                    <div class="accordion-content overflow-hidden max-h-0 p-5 pt-0">
+                        <p class="text-gray-400">1. Desative 'Film Grain' e 'Chromatic Aberration'.<br>2. Use DLSS no modo 'Qualidade' ou 'Equilibrado'.<br>3. Reduza a 'Qualidade de Sombras em Cascata' para 'Médio'.<br>4. Ative o 'Modo de Desempenho' de Ray Tracing se sua GPU suportar.</p>
+                    </div>
+                </div>
+                <!-- Guia 2 -->
+                <div class="accordion-item bg-gray-900/50 border border-neon-purple/30 rounded-lg">
+                    <button class="accordion-header flex justify-between items-center w-full p-5 text-left">
+                        <span class="text-xl font-bold">Onde encontrar a melhor Katana em Elden Ring?</span>
+                        <svg class="w-6 h-6 transform transition-transform" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M19 9l-7 7-7-7"></path></svg>
+                    </button>
+                    <div class="accordion-content overflow-hidden max-h-0 p-5 pt-0">
+                        <p class="text-gray-400">A 'Rios de Sangue' (Rivers of Blood) é encontrada na 'Igreja do Repouso' (Church of Repose) nos Picos dos Gigantes. Você deve derrotar o NPC invasor Okina para obtê-la.</p>
+                    </div>
+                </div>
+                <!-- Guia 3 -->
+                <div class="accordion-item bg-gray-900/50 border border-neon-purple/30 rounded-lg">
+                    <button class="accordion-header flex justify-between items-center w-full p-5 text-left">
+                        <span class="text-xl font-bold">Dicas para iniciantes em Hades II</span>
+                        <svg class="w-6 h-6 transform transition-transform" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M19 9l-7 7-7-7"></path></svg>
+                    </button>
+                    <div class="accordion-content overflow-hidden max-h-0 p-5 pt-0">
+                        <p class="text-gray-400">1. Foque em coletar 'Ashes' e 'Psyche' no início para melhorias permanentes.<br>2. Não ignore as 'Ferramentas do Mundo Inferior'; o machado é essencial para abrir novos caminhos.<br>3. Priorize as bênçãos de Afrodite para defesa (redução de dano).</p>
+                    </div>
+                </div>
+            </div>
+        </section>
+
+        <!-- ===== SEÇÃO: GALERIA DA COMUNIDADE ===== -->
+        <section id="galeria" class="my-24">
+            <h2 class="font-audiowide text-4xl text-neon-blue text-glow-blue mb-8">Galeria da Comunidade</h2>
+            <div class="grid grid-cols-2 md:grid-cols-4 gap-4">
+                <div class="rounded-lg overflow-hidden border border-neon-blue/30 shadow-neon-glow-blue transform transition-transform duration-300 hover:scale-105">
+                    <img src="https://placehold.co/600x600/00ffff/0a0a1a?text=Night+City+Vista" alt="Screenshot Cyberpunk" class="w-full h-full object-cover">
+                </div>
+                <div class="rounded-lg overflow-hidden border border-neon-blue/30 shadow-neon-glow-blue transform transition-transform duration-300 hover:scale-105">
+                    <img src="https://placehold.co/600x600/9e00ff/0a0a1a?text=Elden+Ring+Boss" alt="Screenshot Elden Ring" class="w-full h-full object-cover">
+                </div>
+                <div class="rounded-lg overflow-hidden border border-neon-blue/30 shadow-neon-glow-blue transform transition-transform duration-300 hover:scale-105">
+                    <img src="https://placehold.co/600x600/ff00ff/0a0a1a?text=Starfield+Nebula" alt="Screenshot Starfield" class="w-full h-full object-cover">
+                </div>
+                <div class="rounded-lg overflow-hidden border border-neon-blue/30 shadow-neon-glow-blue transform transition-transform duration-300 hover:scale-105">
+                    <img src="https://placehold.co/600x600/00ffff/0a0a1a?text=DOOM+Glory+Kill" alt="Screenshot DOOM" class="w-full h-full object-cover">
+                </div>
+                 <div class="rounded-lg overflow-hidden border border-neon-blue/30 shadow-neon-glow-blue transform transition-transform duration-300 hover:scale-105">
+                    <img src="https://placehold.co/600x600/9e00ff/0a0a1a?text=Hades+II+Ar" alt="Screenshot Hades II" class="w-full h-full object-cover">
+                </div>
+                 <div class="rounded-lg overflow-hidden border border-neon-blue/30 shadow-neon-glow-blue transform transition-transform duration-300 hover:scale-105">
+                    <img src="https://placehold.co/600x600/ff00ff/0a0a1a?text=Ghost+of+Tsushima" alt="Screenshot Tsushima" class="w-full h-full object-cover">
+                </div>
+                 <div class="rounded-lg overflow-hidden border border-neon-blue/30 shadow-neon-glow-blue transform transition-transform duration-300 hover:scale-105">
+                    <img src="https://placehold.co/600x600/00ffff/0a0a1a?text=Cyber-Bike" alt="Screenshot Cyber-Bike" class="w-full h-full object-cover">
+                </div>
+                 <div class="rounded-lg overflow-hidden border border-neon-blue/30 shadow-neon-glow-blue transform transition-transform duration-300 hover:scale-105">
+                    <img src="https://placehold.co/600x600/9e00ff/0a0a1a?text=Wukong+Battle" alt="Screenshot Wukong" class="w-full h-full object-cover">
+                </div>
+            </div>
+        </section>
+
+        <!-- ===== SEÇÃO: PLATAFORMAS (Links Externos) ===== -->
+        <section id="plataformas" class="my-24">
+            <h2 class="font-audiowide text-4xl text-neon-pink text-glow-pink mb-8">Explore por Plataforma</h2>
+            <div class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-8">
+                
+                <!-- PC/Steam -->
+                <a href="https://store.steampowered.com/" target="_blank" class="group bg-dark-bg p-8 rounded-lg border-2 border-neon-pink/50 shadow-neon-glow-pink transition-all duration-300 hover:-translate-y-2 hover:border-neon-pink">
+                    <div class="flex flex-col items-center text-center">
+                        <svg class="w-16 h-16 text-neon-pink transition-transform duration-300 group-hover:scale-110" fill="none" stroke="currentColor" viewBox="0 0 24 24" xmlns="http://www.w3.org/2000/svg"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M9.75 17L9 20l-1 1h8l-1-1-.75-3M3 13h18M5 17h14a2 2 0 002-2V5a2 2 0 00-2-2H5a2 2 0 00-2 2v10a2 2 0 002 2z"></path></svg>
+                        <h3 class="font-audiowide text-3xl mt-4">PC / Steam</h3>
+                        <p class="mt-2 text-gray-400">A maior biblioteca de jogos do planeta. Explore a loja da Steam.</p>
+                    </div>
+                </a>
+                <!-- PlayStation -->
+                <a href="https://www.playstation.com/pt-br/" target="_blank" class="group bg-dark-bg p-8 rounded-lg border-2 border-neon-pink/50 shadow-neon-glow-pink transition-all duration-300 hover:-translate-y-2 hover:border-neon-pink">
+                    <div class="flex flex-col items-center text-center">
+                        <svg class="w-16 h-16 text-neon-pink transition-transform duration-300 group-hover:scale-110" fill="currentColor" viewBox="0 0 24 24" xmlns="http://www.w3.org/2000/svg"><path d="M14.24 15.68c.12.13.25.25.38.38.48.48.83 1.1.98 1.8h-3.6v-3.6c.7.15 1.32.5 1.8.98l.44.44zm-6.06-1.54c-.13-.13-.25-.25-.38-.38-.48-.48-.83-1.1-.98-1.8h3.6v3.6c-.7-.15-1.32-.5-1.8-.98l-.44-.44zm.38 3.66c-.7-.15-1.32-.5-1.8-.98l-.44-.44c-.12-.13-.25-.25-.38-.38-.48-.48-1.1-.83-1.8-.98v3.6h3.6c.15-.7.5-1.32.98-1.8zm6.06 1.54c.13.13.25.25.38.38.48.48.83 1.1.98 1.8h-3.6v-3.6c.7.15 1.32.5 1.8.98l.44.44zM8.18 8.32c-.12-.13-.25-.25-.38-.38-.48-.48-.83-1.1-.98-1.8h3.6v3.6c-.7-.15-1.32-.5-1.8-.98l-.44-.44zm6.06-1.54c.13.13.25.25.38.38.48.48.83 1.1.98 1.8h-3.6v-3.6c.7.15 1.32.5 1.8.98l.44.44zM8.18 4.98c-.7.15-1.32.5-1.8.98l-.44.44c-.12.13-.25-.25-.38-.38-.48.48-1.1-.83-1.8.98v-3.6h3.6c.15.7.5-1.32.98 1.8zm7.84 1.54c.13-.13.25-.25.38-.38.48-.48.83-1.1.98-1.8h-3.6v3.6c.7-.15 1.32.5 1.8-.98l.44-.44zM12 2C6.48 2 2 6.48 2 12s4.48 10 10 10 10-4.48 10-10S17.52 2 12 2zm0 18c-4.41 0-8-3.59-8-8s3.59-8 8-8 8 3.59 8 8-3.59 8-8 8z"></path></svg>
+                        <h3 class="font-audiowide text-3xl mt-4">PlayStation</h3>
+                        <p class="mt-2 text-gray-400">Exclusivos de peso e o controle DualSense. Veja a PS Store.</p>
+                    </div>
+                </a>
+                <!-- Xbox -->
+                <a href="https://www.xbox.com/pt-BR/" target="_blank" class="group bg-dark-bg p-8 rounded-lg border-2 border-neon-pink/50 shadow-neon-glow-pink transition-all duration-300 hover:-translate-y-2 hover:border-neon-pink">
+                    <div class="flex flex-col items-center text-center">
+                        <svg class="w-16 h-16 text-neon-pink transition-transform duration-300 group-hover:scale-110" fill="currentColor" viewBox="0 0 24 24" xmlns="http://www.w3.org/2000/svg"><path d="M12 2C6.48 2 2 6.48 2 12s4.48 10 10 10 10-4.48 10-10S17.52 2 12 2zm-1.03 5.46c.47-.03.95.1 1.34.36l3.12 2.1c.5.34.87.89.87 1.51s-.37 1.17-.87 1.51l-3.12 2.1c-.4.26-.87.39-1.34.36-.9.04-1.78-.34-2.4-.97-.6-.6-.94-1.44-.97-2.31v-.14c.04-.9.4-1.76 1.03-2.37.62-.6 1.48-.95 2.37-.95zM7.8 17.15c-.53-.33-.99-.74-1.38-1.22L4 13.5v-3l2.42-2.43c.39-.48.85-.89 1.38-1.22L10.5 4h3l2.7 2.85c.53.33.99.74 1.38 1.22L20 10.5v3l-2.42 2.43c-.39-.48-.85-.89-1.38-1.22L13.5 20h-3l-2.7-2.85z"></path></svg>
+                        <h3 class="font-audiowide text-3xl mt-4">Xbox</h3>
+                        <p class="mt-2 text-gray-400">O poder do Game Pass. Milhares de jogos, um preço.</p>
+                    </div>
+                </a>
+                <!-- Nintendo -->
+                <a href="https://www.nintendo.com/pt-br/" target="_blank" class="group bg-dark-bg p-8 rounded-lg border-2 border-neon-pink/50 shadow-neon-glow-pink transition-all duration-300 hover:-translate-y-2 hover:border-neon-pink">
+                    <div class="flex flex-col items-center text-center">
+                        <svg class="w-16 h-16 text-neon-pink transition-transform duration-300 group-hover:scale-110" fill="none" stroke="currentColor" viewBox="0 0 24 24" xmlns="http://www.w3.org/2000/svg"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M3 10h4v4H3v-4zM17 10h4v4h-4v-4zM10 3h4v4h-4V3zM10 17h4v4h-4v-4zM5 17l-2 2h18l-2-2M19 17l2 2M5 7l-2-2h18l-2 2M19 7l2-2M10 10h4v4h-4v-4z"></path></svg>
+                        <h3 class="font-audiowide text-3xl mt-4">Nintendo</h3>
+                        <p class="mt-2 text-gray-400">Inovação e franquias icônicas. Conheça o eShop.</p>
+                    </div>
+                </a>
+            </div>
+        </section>
+
+        <!-- ===== SEÇÃO: COMUNIDADE E RECURSOS (Links Externos) ===== -->
+        <section id="comunidade" class="my-24">
+            <h2 class="font-audiowide text-4xl text-neon-purple text-glow-purple mb-8">Comunidade & Recursos</h2>
+            <div class="grid grid-cols-2 md:grid-cols-3 lg:grid-cols-5 gap-6">
+                
+                <a href="https://www.twitch.tv/" target="_blank" class="flex items-center justify-center text-center p-6 bg-gray-900/50 rounded-lg border border-neon-purple/30 shadow-neon-glow-purple transition-all duration-300 hover:bg-neon-purple hover:text-dark-bg hover:scale-105">
+                    <span class="font-bold text-lg">Twitch</span>
+                </a>
+                <a href="https://discord.com/" target="_blank" class="flex items-center justify-center text-center p-6 bg-gray-900/50 rounded-lg border border-neon-purple/30 shadow-neon-glow-purple transition-all duration-300 hover:bg-neon-purple hover:text-dark-bg hover:scale-105">
+                    <span class="font-bold text-lg">Discord</span>
+                </a>
+                <a href="https://www.reddit.com/r/gaming/" target="_blank" class="flex items-center justify-center text-center p-6 bg-gray-900/50 rounded-lg border border-neon-purple/30 shadow-neon-glow-purple transition-all duration-300 hover:bg-neon-purple hover:text-dark-bg hover:scale-105">
+                    <span class="font-bold text-lg">Reddit r/gaming</span>
+                </a>
+                <a href="https://www.metacritic.com/" target="_blank" class="flex items-center justify-center text-center p-6 bg-gray-900/50 rounded-lg border border-neon-purple/30 shadow-neon-glow-purple transition-all duration-300 hover:bg-neon-purple hover:text-dark-bg hover:scale-105">
+                    <span class="font-bold text-lg">Metacritic</span>
+                </a>
+                <a href="https://www.pcgamer.com/" target="_blank" class="flex items-center justify-center text-center p-6 bg-gray-900/50 rounded-lg border border-neon-purple/30 shadow-neon-glow-purple transition-all duration-300 hover:bg-neon-purple hover:text-dark-bg hover:scale-105">
+                    <span class="font-bold text-lg">PC Gamer</span>
+                </a>
+            </div>
+        </section>
+
+    </main>
+
+    <!-- ===== RODAPÉ ===== -->
+    <footer class="bg-dark-bg border-t border-neon-blue/30 shadow-neon-glow-blue mt-20 py-10">
+        <div class="container mx-auto px-4 sm:px-6 lg:px-8 text-center text-gray-500">
+            <a href="#" class="font-audiowide text-3xl text-neon-blue text-glow-blue">
+                CyberGamer
+            </a>
+            <div class="flex justify-center space-x-6 my-6">
+                <!-- Ícones Sociais -->
+                <a href="https://twitter.com" target="_blank" class="text-gray-400 hover:text-neon-pink transition-colors">
+                    <svg class="w-7 h-7" fill="currentColor" viewBox="0 0 24 24" xmlns="http://www.w3.org/2000/svg"><path d="M18.244 2.25h3.308l-7.227 8.26 8.502 11.24H16.17l-5.214-6.817L4.99 21.75H1.68l7.73-8.835L1.254 2.25H8.08l4.713 6.231zm-1.161 17.52h1.833L7.084 4.126H5.117z"></path></svg>
+                </a>
+                <a href="https://youtube.com/gaming" target="_blank" class="text-gray-400 hover:text-neon-pink transition-colors">
+                    <svg class="w-7 h-7" fill="currentColor" viewBox="0 0 24 24" xmlns="http://www.w3.org/2000/svg"><path d="M19.615 3.184c-3.604-.246-11.631-.245-15.23 0C.515 3.42 0 4.935 0 12s.515 8.58 4.385 8.816c3.6.245 11.626.246 15.23 0C23.485 20.58 24 19.065 24 12s-.515-8.58-4.385-8.816zM9.545 15.568V8.432L15.818 12l-6.273 3.568z"></path></svg>
+                </a>
+                <a href="https://www.twitch.tv" target="_blank" class="text-gray-400 hover:text-neon-pink transition-colors">
+                    <svg class="w-7 h-7" fill="currentColor" viewBox="0 0 24 24" xmlns="http://www.w3.org/2000/svg"><path d="M11.571 4.714h1.715v5.143H11.57zm4.714 0h1.715v5.143h-1.715zM6 0L1.714 4.286v15.428h5.143V24l4.286-4.286h3.428L22.286 12V0zm14.571 11.143l-3.428 3.428h-3.429l-3 3v-3H6.857V1.714h13.714z"></VscTwitch>"></path></svg>
+                </a>
+            </div>
+            <div class="space-x-4 my-4">
+                <a href="#" class="hover:text-neon-pink">Sobre Nós</a>
+                <a href="#" class="hover:text-neon-pink">Contato</a>
+                <a href="#" class="hover:text-neon-pink">Política de Privacidade</a>
+            </div>
+            <p>&copy; 2025 CyberGamer Zone. Todos os direitos reservados.</p>
+            <p class="text-gray-600 text-sm mt-2">Um design neon-futurista para entusiastas de jogos.</p>
+        </div>
+    </footer>
+
+    <!-- ===== SCRIPTS ===== -->
+    
+    <!-- Script para Menu Mobile e Acordion -->
+    <script>
+        document.addEventListener('DOMContentLoaded', () => {
+            // Menu Mobile
+            const menuButton = document.getElementById('mobile-menu-button');
+            const mobileMenu = document.getElementById('mobile-menu');
+            if (menuButton) {
+                menuButton.addEventListener('click', () => {
+                    mobileMenu.classList.toggle('hidden');
+                });
+            }
+
+            // Acordion (Guias e Dicas)
+            const accordions = document.querySelectorAll('.accordion-item');
+            accordions.forEach(item => {
+                const header = item.querySelector('.accordion-header');
+                const content = item.querySelector('.accordion-content');
+                const icon = header.querySelector('svg');
+
+                if (!header || !content || !icon) return;
+
+                header.addEventListener('click', () => {
+                    // Fecha todos os outros
+                    accordions.forEach(otherItem => {
+                        if (otherItem !== item) {
+                            const otherContent = otherItem.querySelector('.accordion-content');
+                            const otherIcon = otherItem.querySelector('.accordion-header svg');
+                            if(otherContent) otherContent.style.maxHeight = '0px';
+                            if(otherIcon) otherIcon.style.transform = 'rotate(0deg)';
+                        }
+                    });
+                    
+                    // Abre ou fecha o atual
+                    if (content.style.maxHeight === '0px' || !content.style.maxHeight) {
+                        content.style.maxHeight = content.scrollHeight + 'px';
+                        icon.style.transform = 'rotate(180deg)';
+                    } else {
+                        content.style.maxHeight = '0px';
+                        icon.style.transform = 'rotate(0deg)';
+                    }
+                });
+            });
+        });
+    </script>
+
+    <!-- Script dos Jogos (Compartilhado) -->
+    <script>
+        // Objeto global para prevenir colisões de 'keydown'
+        const gameKeys = {
+            snake: { active: false, velocity: { x: 0, y: 0 } },
+            invaders: { a: false, d: false, space: false, lastShotTime: 0 },
+            pong: { w: false, s: false, arrowUp: false, arrowDown: false }
+        };
+
+        // Previne scroll da página
+        window.addEventListener('keydown', e => {
+            if (['ArrowUp', 'ArrowDown', 'ArrowLeft', 'ArrowRight', ' ', 'w', 's'].includes(e.key)) {
+                e.preventDefault();
+            }
+            
+            // Controles Snake
+            switch (e.key) {
+                case 'ArrowUp': case 'w':
+                    if (gameKeys.snake.velocity.y === 0) gameKeys.snake.velocity = { x: 0, y: -1 };
+                    gameKeys.pong.w = true;
+                    gameKeys.pong.arrowUp = true;
+                    break;
+                case 'ArrowDown': case 's':
+                    if (gameKeys.snake.velocity.y === 0) gameKeys.snake.velocity = { x: 0, y: 1 };
+                    gameKeys.pong.s = true;
+                    gameKeys.pong.arrowDown = true;
+                    break;
+                case 'ArrowLeft': case 'a':
+                    if (gameKeys.snake.velocity.x === 0) gameKeys.snake.velocity = { x: -1, y: 0 };
+                    gameKeys.invaders.a = true;
+                    break;
+                case 'ArrowRight': case 'd':
+                    if (gameKeys.snake.velocity.x === 0) gameKeys.snake.velocity = { x: 1, y: 0 };
+                    gameKeys.invaders.d = true;
+                    break;
+                case ' ':
+                    gameKeys.invaders.space = true;
+                    let now = Date.now();
+                    if (now - gameKeys.invaders.lastShotTime > 300) { // Limita o tiro
+                        gameKeys.invaders.lastShotTime = now;
+                        // A lógica de atirar precisa estar no loop do jogo
+                    }
+                    break;
+            }
+        });
+
+        window.addEventListener('keyup', e => {
+            switch (e.key) {
+                case 'ArrowUp':
+                    gameKeys.pong.arrowUp = false;
+                    break;
+                case 'w':
+                    gameKeys.pong.w = false;
+                    break;
+                case 'ArrowDown':
+                    gameKeys.pong.arrowDown = false;
+                    break;
+                case 's':
+                    gameKeys.pong.s = false;
+                    break;
+                case 'ArrowLeft': case 'a':
+                    gameKeys.invaders.a = false;
+                    break;
+                case 'ArrowRight': case 'd':
+                    gameKeys.invaders.d = false;
+                    break;
+                case ' ':
+                    gameKeys.invaders.space = false;
+                    break;
+            }
+        });
+    </script>
+
+    <!-- Script do Jogo CyberSnake -->
+    <script>
+        document.addEventListener('DOMContentLoaded', () => {
+            const canvas = document.getElementById('gameCanvasSnake');
+            if (!canvas) return; 
+            
+            const ctx = canvas.getContext('2d');
+            const scoreDisplay = document.getElementById('scoreDisplaySnake');
+            
+            const gridSize = 20;
+            const tileCount = canvas.width / gridSize;
+            let score = 0;
+            let snake = [{ x: 10, y: 10 }];
+            let apple = { x: 15, y: 15 };
+            let lastPaintTime = 0;
+            const gameSpeed = 8;
+            let gameLoopId;
+
+            function startSnakeGame() {
+                if (gameLoopId) window.cancelAnimationFrame(gameLoopId);
+                resetSnakeGame();
+                gameLoopSnake(0);
+            }
+
+            function gameLoopSnake(currentTime) {
+                gameLoopId = window.requestAnimationFrame(gameLoopSnake);
+                const secondsSinceLastPaint = (currentTime - lastPaintTime) / 1000;
+                if (secondsSinceLastPaint < 1 / gameSpeed) return;
+                lastPaintTime = currentTime;
+                updateSnake();
+                drawSnake();
+            }
+            
+            function updateSnake() {
+                const head = { x: snake[0].x + gameKeys.snake.velocity.x, y: snake[0].y + gameKeys.snake.velocity.y };
+                snake.unshift(head);
+                if (head.x === apple.x && head.y === apple.y) {
+                    score++;
+                    scoreDisplay.innerText = `PONTOS: ${score}`;
+                    randomizeApple();
+                } else {
+                    snake.pop();
+                }
+                if (isSnakeGameOver(head)) {
+                    resetSnakeGame();
+                }
+            }
+
+            function drawSnake() {
+                ctx.fillStyle = '#1a1a2e';
+                ctx.fillRect(0, 0, canvas.width, canvas.height);
+                // Cobra Verde
+                ctx.fillStyle = '#00ff00';
+                ctx.shadowColor = '#00ff00';
+                ctx.shadowBlur = 10;
+                snake.forEach(segment => {
+                    ctx.fillRect(segment.x * gridSize, segment.y * gridSize, gridSize - 2, gridSize - 2);
+                });
+                // Comida Rosa
+                ctx.fillStyle = '#ff00ff';
+                ctx.shadowColor = '#ff00ff';
+                ctx.shadowBlur = 10;
+                ctx.fillRect(apple.x * gridSize, apple.y * gridSize, gridSize - 2, gridSize - 2);
+                ctx.shadowBlur = 0;
+            }
+
+            function randomizeApple() {
+                apple.x = Math.floor(Math.random() * tileCount);
+                apple.y = Math.floor(Math.random() * tileCount);
+                snake.forEach(segment => {
+                    if (segment.x === apple.x && segment.y === apple.y) randomizeApple();
+                });
+            }
+
+            function isSnakeGameOver(head) {
+                if (head.x < 0 || head.x >= tileCount || head.y < 0 || head.y >= tileCount) return true;
+                for (let i = 1; i < snake.length; i++) {
+                    if (head.x === snake[i].x && head.y === snake[i].y) return true;
+                }
+                return false;
+            }
+
+            function resetSnakeGame() {
+                snake = [{ x: 10, y: 10 }];
+                gameKeys.snake.velocity = { x: 0, y: 0 };
+                score = 0;
+                scoreDisplay.innerText = `PONTOS: ${score}`;
+                randomizeApple();
+            }
+            
+            startSnakeGame(); // Inicia o jogo Snake
+        });
+    </script>
+
+    <!-- Script do Jogo Cyber Invaders -->
+    <script>
+        document.addEventListener('DOMContentLoaded', () => {
+            const canvas = document.getElementById('gameCanvasInvaders');
+            if (!canvas) return;
+
+            const ctx = canvas.getContext('2d');
+            const scoreDisplay = document.getElementById('scoreDisplayInvaders');
+
+            let score = 0;
+            let gameLoopId;
+            const player = { x: canvas.width / 2 - 25, y: canvas.height - 50, width: 50, height: 20, speed: 5 };
+            let bullets = [];
+            let invaders = [];
+            let invaderSpeed = 1;
+            let invaderDirection = 1;
+            let invaderDrop = 10;
+            const invaderRows = 4;
+            const invaderCols = 8;
+            const invaderWidth = 30;
+            const invaderHeight = 20;
+
+            function createInvaders() {
+                invaders = [];
+                for (let r = 0; r < invaderRows; r++) {
+                    for (let c = 0; c < invaderCols; c++) {
+                        invaders.push({ x: c * (invaderWidth + 10) + 30, y: r * (invaderHeight + 10) + 30, width: invaderWidth, height: invaderHeight });
+                    }
+                }
+            }
+
+            function drawPlayer() {
+                ctx.fillStyle = '#00ffff'; // Jogador Ciano
+                ctx.shadowColor = '#00ffff';
+                ctx.shadowBlur = 10;
+                ctx.fillRect(player.x, player.y, player.width, player.height);
+                ctx.shadowBlur = 0;
+            }
+
+            function drawBullets() {
+                ctx.fillStyle = '#f4f4f4'; // Tiros Brancos
+                ctx.shadowColor = '#f4f4f4';
+                ctx.shadowBlur = 5;
+                bullets.forEach((bullet, index) => {
+                    ctx.fillRect(bullet.x, bullet.y, bullet.width, bullet.height);
+                    bullet.y -= bullet.speed;
+                    if (bullet.y < 0) bullets.splice(index, 1);
+                });
+                ctx.shadowBlur = 0;
+            }
+
+            function drawInvaders() {
+                ctx.fillStyle = '#ff00ff'; // Invasores Rosa
+                ctx.shadowColor = '#ff00ff';
+                ctx.shadowBlur = 10;
+                let edgeReached = false;
+                invaders.forEach(invader => {
+                    ctx.fillRect(invader.x, invader.y, invader.width, invader.height);
+                    invader.x += invaderSpeed * invaderDirection;
+                    if (invader.x + invader.width > canvas.width || invader.x < 0) {
+                        edgeReached = true;
+                    }
+                });
+                if (edgeReached) {
+                    invaderDirection *= -1;
+                    invaders.forEach(invader => invader.y += invaderDrop);
+                }
+                ctx.shadowBlur = 0;
+            }
+
+            function checkCollisions() {
+                bullets.forEach((bullet, bIndex) => {
+                    invaders.forEach((invader, iIndex) => {
+                        if (bullet.x < invader.x + invader.width && bullet.x + bullet.width > invader.x &&
+                            bullet.y < invader.y + invader.height && bullet.y + bullet.height > invader.y) {
+                            bullets.splice(bIndex, 1);
+                            invaders.splice(iIndex, 1);
+                            score += 10;
+                            scoreDisplay.innerText = `PONTOS: ${score}`;
+                        }
+                    });
+                });
+                invaders.forEach(invader => {
+                    if (invader.y + invader.height > player.y) resetInvadersGame();
+                });
+                if (invaders.length === 0) {
+                    invaderSpeed += 0.5;
+                    createInvaders();
+                }
+            }
+
+            function updatePlayer() {
+                if (gameKeys.invaders.a && player.x > 0) player.x -= player.speed;
+                if (gameKeys.invaders.d && player.x + player.width < canvas.width) player.x += player.speed;
+                if (gameKeys.invaders.space) {
+                     if (Date.now() - gameKeys.invaders.lastShotTime > 300) {
+                        gameKeys.invaders.lastShotTime = Date.now();
+                        bullets.push({ x: player.x + player.width / 2 - 2.5, y: player.y, width: 5, height: 10, speed: 7 });
+                     }
+                     gameKeys.invaders.space = false; // Reseta o tiro
+                }
+            }
+
+            function gameLoopInvaders() {
+                ctx.fillStyle = '#1a1a2e';
+                ctx.fillRect(0, 0, canvas.width, canvas.height);
+                drawPlayer();
+                drawBullets();
+                drawInvaders();
+                checkCollisions();
+                updatePlayer();
+                gameLoopId = window.requestAnimationFrame(gameLoopInvaders);
+            }
+
+            function resetInvadersGame() {
+                score = 0;
+                invaderSpeed = 1;
+                scoreDisplay.innerText = `PONTOS: ${score}`;
+                createInvaders();
+            }
+
+            resetInvadersGame();
+            gameLoopInvaders();
+        });
+    </script>
+
+    <!-- Script do Jogo CyberPong -->
+    <script>
+        document.addEventListener('DOMContentLoaded', () => {
+            const canvas = document.getElementById('gameCanvasPong');
+            if (!canvas) return;
+
+            const ctx = canvas.getContext('2d');
+            const scoreDisplay = document.getElementById('scoreDisplayPong');
+
+            let score = { p1: 0, p2: 0 };
+            const paddleHeight = 80;
+            const paddleWidth = 15;
+            let paddle1 = { x: 10, y: canvas.height / 2 - paddleHeight / 2, width: paddleWidth, height: paddleHeight, speed: 6 };
+            let paddle2 = { x: canvas.width - paddleWidth - 10, y: canvas.height / 2 - paddleHeight / 2, width: paddleWidth, height: paddleHeight, speed: 6 };
+            let ball = { x: canvas.width / 2, y: canvas.height / 2, size: 10, vx: 4, vy: 4 };
+
+            function drawRect(x, y, w, h, color, shadowColor) {
+                ctx.fillStyle = color;
+                ctx.shadowColor = shadowColor;
+                ctx.shadowBlur = 15;
+                ctx.fillRect(x, y, w, h);
+            }
+
+            function drawCircle(x, y, r, color, shadowColor) {
+                ctx.fillStyle = color;
+                ctx.shadowColor = shadowColor;
+                ctx.shadowBlur = 15;
+                ctx.beginPath();
+                ctx.arc(x, y, r, 0, Math.PI * 2, false);
+                ctx.fill();
+            }
+
+            function drawNet() {
+                ctx.strokeStyle = '#f4f4f4';
+                ctx.setLineDash([10, 10]);
+                ctx.beginPath();
+                ctx.moveTo(canvas.width / 2, 0);
+                ctx.lineTo(canvas.width / 2, canvas.height);
+                ctx.stroke();
+                ctx.setLineDash([]);
+            }
+
+            function update() {
+                // Mover paddles
+                if (gameKeys.pong.w && paddle1.y > 0) paddle1.y -= paddle1.speed;
+                if (gameKeys.pong.s && paddle1.y + paddle1.height < canvas.height) paddle1.y += paddle1.speed;
+                if (gameKeys.pong.arrowUp && paddle2.y > 0) paddle2.y -= paddle2.speed;
+                if (gameKeys.pong.arrowDown && paddle2.y + paddle2.height < canvas.height) paddle2.y += paddle2.speed;
+
+                // Mover bola
+                ball.x += ball.vx;
+                ball.y += ball.vy;
+
+                // Colisão com paredes (vertical)
+                if (ball.y + ball.size > canvas.height || ball.y - ball.size < 0) {
+                    ball.vy *= -1;
+                }
+
+                // Colisão com paddles
+                if (ball.x - ball.size < paddle1.x + paddle1.width && // Lado direito P1
+                    ball.y > paddle1.y && ball.y < paddle1.y + paddle1.height && ball.vx < 0) {
+                    ball.vx *= -1;
+                }
+                if (ball.x + ball.size > paddle2.x && // Lado esquerdo P2
+                    ball.y > paddle2.y && ball.y < paddle2.y + paddle2.height && ball.vx > 0) {
+                    ball.vx *= -1;
+                }
+
+                // Ponto
+                if (ball.x + ball.size < 0) { // Ponto P2
+                    score.p2++;
+                    resetBall();
+                } else if (ball.x - ball.size > canvas.width) { // Ponto P1
+                    score.p1++;
+                    resetBall();
+                }
+                scoreDisplay.innerText = `${score.p1} - ${score.p2}`;
+            }
+            
+            function resetBall() {
+                ball.x = canvas.width / 2;
+                ball.y = canvas.height / 2;
+                ball.vx = (Math.random() > 0.5 ? 1 : -1) * 4;
+                ball.vy = (Math.random() > 0.5 ? 1 : -1) * 4;
+            }
+
+            function draw() {
+                // Fundo
+                ctx.fillStyle = '#1a1a2e';
+                ctx.fillRect(0, 0, canvas.width, canvas.height);
+                ctx.shadowBlur = 0;
+                
+                drawNet();
+                
+                // P1 (Ciano)
+                drawRect(paddle1.x, paddle1.y, paddle1.width, paddle1.height, '#00ffff', '#00ffff');
+                // P2 (Ciano)
+                drawRect(paddle2.x, paddle2.y, paddle2.width, paddle2.height, '#00ffff', '#00ffff');
+                // Bola (Rosa)
+                drawCircle(ball.x, ball.y, ball.size, '#ff00ff', '#ff00ff');
+                
+                ctx.shadowBlur = 0;
+            }
+
+            function gameLoopPong() {
+                update();
+                draw();
+                window.requestAnimationFrame(gameLoopPong);
+            }
+
+            resetBall();
+            gameLoopPong();
+        });
+    </script>
+</body>
+</html>
+
